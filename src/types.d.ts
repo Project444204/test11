@@ -9,7 +9,7 @@ declare global {
   }
   class OffscreenCanvas {
     constructor(width: number, height: number);
-    getContext(contextType: string, options?: any): any | null;
+    getContext(contextType: string, options?: unknown): RenderingContext | null;
     transferToImageBitmap(): ImageBitmap;
   }
 }

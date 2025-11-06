@@ -42,7 +42,7 @@ export default function FullScreenCanvas() {
     };
 
   const playAttachmentSound = () => {
-    const audioCtx = new ((window as any).AudioContext || (window as any).webkitAudioContext)();
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const oscillator = audioCtx.createOscillator();
     const gainNode = audioCtx.createGain();
     oscillator.connect(gainNode);

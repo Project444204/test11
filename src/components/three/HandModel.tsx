@@ -194,6 +194,7 @@ function AttachedRing({ handScene, animating = false }: { handScene: THREE.Group
 
     // Subscribe to spring updates during animation
     let animationId: number | undefined;
+    let settleFrame: number | undefined;
     if (animating) {
       startTime = Date.now();
       // ANIMATION_DURATION defined above
@@ -215,7 +216,6 @@ function AttachedRing({ handScene, animating = false }: { handScene: THREE.Group
 
     // 5. Subtle finalize settle animation when not animating (Final state)
     if (!animating) {
-      let settleFrame: number | undefined;
       const settleStart = Date.now();
       const settleDuration = 650; // ms
       const initialPos = container.position.clone();
@@ -249,7 +249,7 @@ function AttachedRing({ handScene, animating = false }: { handScene: THREE.Group
         const deltaY = desiredWorldY - ringWorld.y;
         // Apply offset at the hand scene level (parent of container)
         handScene.position.y += deltaY;
-      } catch (e) {
+      } catch {
         // noop if any calc fails
       }
     };
@@ -274,6 +274,9 @@ function AttachedRing({ handScene, animating = false }: { handScene: THREE.Group
       if (animationId) {
         cancelAnimationFrame(animationId);
       }
+      if (settleFrame) {
+        cancelAnimationFrame(settleFrame);
+      }
       if (targetBone) {
         targetBone.remove(container);
       }
@@ -294,7 +297,7 @@ type HandModelProps = {
   scale?: [number, number, number];
 };
 
-export default function HandModel({ attachRing = false, animating = false, position, scale, ...props }: HandModelProps) {
+export default function HandModel({ attachRing = false, animating = false, position, scale }: HandModelProps) {
   const { scene } = useGLTF(MODEL_PATH);
 
   // Spring animation for smooth hand movement during ring attachment
