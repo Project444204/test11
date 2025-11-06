@@ -4,8 +4,7 @@ declare module '@react-spring/three';
 
 declare global {
   interface Window {
-    webkitAudioContext: typeof AudioContext;
-    AudioContext: typeof AudioContext;
+    webkitAudioContext?: typeof AudioContext;
   }
   class OffscreenCanvas {
     constructor(width: number, height: number);
