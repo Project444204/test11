@@ -7,10 +7,9 @@ services:
     environment:
       - NODE_ENV=production
       - NEXT_TELEMETRY_DISABLED=1
-    # Ports removed - Dokploy handles routing automatically
-    # If you need to expose the port, use a different port or let Dokploy manage it
-    # ports:
-    #   - "3000:3000"
+      - PORT=3007
+    ports:
+      - "3007:3007"
     networks:
       - 3d-hand-network
 
