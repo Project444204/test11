@@ -42,7 +42,8 @@ export default function FullScreenCanvas() {
     };
 
   const playAttachmentSound = () => {
-    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    const AudioContextClass = window.AudioContext || 
+      (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
     if (!AudioContextClass) {
       console.warn('AudioContext not supported');
       return;
