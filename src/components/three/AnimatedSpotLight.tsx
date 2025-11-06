@@ -2,15 +2,19 @@
 
 import React, { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import type { ThreeElements } from "@react-three/fiber";
 import type { SpotLight } from "three";
 
-type AnimatedSpotLightProps = Omit<ThreeElements["spotLight"], "position" | "intensity"> & {
+type AnimatedSpotLightProps = {
   isIlluminated: boolean;
   initialPosition: [number, number, number];
   targetPosition: [number, number, number];
   activeIntensity: number;
   offIntensity?: number;
+  angle?: number;
+  penumbra?: number;
+  color?: string;
+  distance?: number;
+  castShadow?: boolean;
 };
 
 export default function AnimatedSpotLight({
@@ -24,7 +28,6 @@ export default function AnimatedSpotLight({
   color = "#ffffff",
   distance = 25,
   castShadow = true,
-  ...rest
 }: AnimatedSpotLightProps) {
   const lightRef = useRef<SpotLight | null>(null);
 
@@ -56,7 +59,6 @@ export default function AnimatedSpotLight({
       shadow-mapSize-width={1024}
       shadow-mapSize-height={1024}
       shadow-bias={-0.0001}
-      {...rest}
     />
   );
 }

@@ -1,17 +1,21 @@
 "use client";
 
 import React, { useEffect } from "react";
-import type { ThreeElements } from "@react-three/fiber";
 import { useGLTF, Center } from "@react-three/drei";
 import * as THREE from "three";
 
 const MODEL_PATH = "/nenya_galadriels_ring.glb";
 
-type RingModelProps = ThreeElements["group"] & {
+type RingModelProps = {
+  position?: [number, number, number];
+  scale?: number | [number, number, number];
+  rotation?: [number, number, number];
   onClick?: () => void;
+  onPointerDown?: () => void;
+  tintColor?: string; // New prop for color tint
 };
 
-export default function RingModel({ onClick, ...props }: RingModelProps) {
+export default function RingModel({ onClick, tintColor = '#ffffff', ...props }: RingModelProps) {
   const { scene } = useGLTF(MODEL_PATH);
 
   useEffect(() => {
@@ -23,7 +27,7 @@ export default function RingModel({ onClick, ...props }: RingModelProps) {
           ? object.material
           : [object.material].filter(Boolean);
         if (materials.length === 0) {
-          object.material = new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 1.0, roughness: 0.1 });
+          object.material = new THREE.MeshStandardMaterial({ color: tintColor, metalness: 1.0, roughness: 0.1 });
         } else {
           materials.forEach((mat: THREE.Material) => {
             if (!mat) return;
@@ -39,12 +43,15 @@ export default function RingModel({ onClick, ...props }: RingModelProps) {
               }
             }
             if ("vertexColors" in mat) mat.vertexColors = false;
+            if (mat instanceof THREE.MeshStandardMaterial) {
+              mat.color = new THREE.Color(tintColor);
+            }
             mat.needsUpdate = true;
           });
         }
       }
     });
-  }, [scene]);
+  }, [scene, tintColor]); // Add tintColor to dependencies
 
   return (
     <group {...props} dispose={null}>
