@@ -7,9 +7,9 @@ services:
     environment:
       - NODE_ENV=production
       - NEXT_TELEMETRY_DISABLED=1
-      - PORT=3007
+      - PORT=3009
     ports:
-      - "3007:3007"
+      - "3009:3009"
     networks:
       - 3d-hand-network
 
