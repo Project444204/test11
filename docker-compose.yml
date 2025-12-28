@@ -10,6 +10,10 @@ services:
       - PORT=3009
     ports:
       - "3009:3009"
+    deploy:
+      resources:
+        limits:
+          cpus: 0.5
     networks:
       - 3d-hand-network
 
